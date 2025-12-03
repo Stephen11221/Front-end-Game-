@@ -1,49 +1,65 @@
 import React from 'react';
 
 const games = [
-  { key: 'race', name: 'Race Game', description: 'Top-down car race game.' },
-  { key: 'snake', name: 'Snake Game', description: 'Classic snake game. (Coming Soon)' },
+  { key: 'snake', name: 'Snake Game', description: 'Classic snake game.' },
   { key: 'football', name: 'Football Game', description: 'Football arcade. (Coming Soon)' },
   { key: 'hunting', name: 'Hunting Game', description: 'Hunting adventure. (Coming Soon)' },
 ];
 
-export default function Dashboard({ onSelect }) {
+export default function Dashboard({ selected, onSelect }) {
   return (
     <div style={{
-      minHeight: '100dvh',
+      height: '100dvh',
       display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'center',
+      flexDirection: 'row',
       background: '#222',
       color: '#fff',
-      padding: '24px',
+      width: '100vw',
+      maxWidth: '100vw',
+      overflow: 'hidden',
     }}>
-      <h1 style={{ marginBottom: 24 }}>Game Dashboard</h1>
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 24, justifyContent: 'center' }}>
+      <aside style={{
+        width: '32vw',
+        minWidth: 90,
+        maxWidth: 220,
+        background: '#181818',
+        borderRight: '2px solid #333',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'stretch',
+        padding: '18px 0',
+        gap: 8,
+      }}>
+  <h2 style={{ textAlign: 'center', marginBottom: 14, fontSize: '3.5vw', minFontSize: 16 }}>Games</h2>
         {games.map(game => (
           <button
             key={game.key}
             onClick={() => onSelect(game.key)}
             style={{
-              minWidth: 180,
-              minHeight: 80,
-              background: '#333',
+              background: selected === game.key ? '#4caf50' : '#333',
               color: '#fff',
-              border: '2px solid #4caf50',
-              borderRadius: 12,
-              fontSize: 20,
+              border: 'none',
+              borderRadius: 8,
+              fontSize: '2.8vw',
               fontWeight: 'bold',
-              marginBottom: 8,
+              padding: '10px 6px',
+              margin: '0 8px 8px',
               cursor: 'pointer',
-              boxShadow: '0 2px 8px #0004',
+              boxShadow: selected === game.key ? '0 2px 8px #4caf50' : '0 2px 8px #0004',
+              outline: selected === game.key ? '2px solid #4caf50' : 'none',
+              transition: 'background 0.2s',
+              minWidth: 70,
+              maxWidth: '90vw',
             }}
           >
             {game.name}
-            <div style={{ fontSize: 14, fontWeight: 'normal', marginTop: 8 }}>{game.description}</div>
+            <div style={{ fontSize: '2vw', fontWeight: 'normal', marginTop: 6 }}>{game.description}</div>
           </button>
         ))}
-      </div>
+      </aside>
+      <main style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '100dvh', width: '68vw', maxWidth: '100vw', overflow: 'auto' }}>
+        {/* The actual game will be rendered in App.js */}
+      </main>
     </div>
   );
 }

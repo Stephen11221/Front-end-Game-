@@ -1,25 +1,34 @@
 import './App.css';
-import Game from './comp/game';
 import Dashboard from './comp/Dashboard';
 import PlaceholderGame from './comp/PlaceholderGame';
+import SnakeGame from './comp/SnakeGame';
+import LoadingPage from './comp/LoadingPage';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 function App() {
-  const [selected, setSelected] = useState(null);
+  const [selected, setSelected] = useState('snake');
+  const [loading, setLoading] = useState(true);
 
-  let content;
-  if (!selected) {
-    content = <Dashboard onSelect={setSelected} />;
-  } else if (selected === 'race') {
-    content = <Game />;
+  useEffect(() => {
+    const timer = setTimeout(() => setLoading(false), 1200);
+    return () => clearTimeout(timer);
+  }, []);
+
+  let gameContent;
+  if (selected === 'snake') {
+    gameContent = <SnakeGame />;
   } else {
-    content = <PlaceholderGame type={selected} />;
+    gameContent = <PlaceholderGame type={selected} />;
   }
 
   return (
-    <div className="App">
-      {content}
+    <div className="App" style={{ minHeight: '100dvh', background: '#222', position: 'relative' }}>
+      {loading && <LoadingPage />}
+      <Dashboard selected={selected} onSelect={setSelected} />
+      <div style={{ position: 'absolute', left: 220, right: 0, top: 0, bottom: 0, minHeight: '100dvh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        {gameContent}
+      </div>
     </div>
   );
 }
